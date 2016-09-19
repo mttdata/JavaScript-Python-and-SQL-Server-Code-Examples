@@ -30,6 +30,19 @@ C.ClaimEstimateCompletedDate <=  @EndDate
 ORDER BY [Claim Net RCV] DESC
 
 
+DROP TABLE #AB2
+SELECT A.ClaimID,
+[Analytics].[dbo].ClaimsStatus,
+COUNT(EstimateItemID) AS COUNT_OF_ESTIMATE_ITEM
+INTO #AB2
+FROM WorkDatabase.dbo.leaves AS A
+INNER JOIN
+#RC AS B
+ON A.ClaimID = B.ClaimID
+WHERE Description = 'Closed'
+Group by A.ClaimID
+Having COUNT(EstimateItemID) >= 1
+
 =============================================================================================================================
 
 Probability is often defined as the frequency of something occuring provided a certain sample size
