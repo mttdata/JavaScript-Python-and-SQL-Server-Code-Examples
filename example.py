@@ -43,6 +43,23 @@ WHERE Description = 'Closed'
 Group by A.ClaimID
 Having COUNT(EstimateItemID) >= 1
 
+
+CREATE TABLE Employees
+(
+EmployeeNo INTEGER IDENTITY NOT NULL PRIMARY KEY,
+)
+
+
+CREATE TABLE Orders
+(
+OrderID INTEGER IDENTITY NOT NULL PRIMARY KEY,
+CustomerNo INTEGER NOT NULL
+FOREIGN KEY REFERENCES Employees(EmployeeNo),
+OrderDate DATE NOT NULL,
+EmployeeID INTEGER NOT NULL
+)
+
+
 =============================================================================================================================
 
 Probability is often defined as the frequency of something occuring provided a certain sample size
