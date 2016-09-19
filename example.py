@@ -1,3 +1,37 @@
+USE [WorkDatabase]
+GO
+
+DECLARE @StartDate DATE
+DECLARE @EndDate DATE
+
+SET @StartDate  = '09/01/2010';
+SET @EndDate = '08/30/2016';
+
+SELECT TOP 100 A.Name AS [Estimate Name],  
+A.GrandTotalRecoveredDepreciation AS [Claim Net RCV],
+B.Number AS [Claim Number], CONVERT(VARCHAR(15), (D.LossDate), 107) AS  
+[Loss Date],
+CONVERT(VARCHAR(15), C.ClaimEstimateCompletedDate, 107) AS [Date], CASE
+WHEN A.GrandTotalRecoveredDepreciation <= 1000 THEN 'Low Estimate Status'
+WHEN A.GrandTotalRecoveredDepreciation BETWEEN 1000 AND 2000 THEN  
+'Medium Estimate Status'
+ELSE 'Large Status Normal'
+END [Listed Estimate Status]
+FROM Claims AS B 
+INNER JOIN Estimates AS A 
+ON A.ClaimID = B.ClaimID
+INNER JOIN ClaimSummaryParticipantsView 
+C.ClaimEstimateCompletedDate 
+ON B.ClaimID = C.ClaimID
+INNER JOIN Claims AS D
+ON C.ClaimID = D.ClaimID
+WHERE C.ClaimEstimateCompletedDate >= @StartDate and  
+C.ClaimEstimateCompletedDate <=  @EndDate
+ORDER BY [Claim Net RCV] DESC
+
+
+=============================================================================================================================
+
 Probability is often defined as the frequency of something occuring provided a certain sample size
 
 We are presented the following statistical problem: what is the probability that I will encounter a red light when I
