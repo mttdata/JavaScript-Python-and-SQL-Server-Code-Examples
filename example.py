@@ -32,7 +32,7 @@ ORDER BY [Claim Net RCV] DESC
 
 DROP TABLE #AB2
 SELECT A.ClaimID,
-[Analytics].[dbo].ClaimsStatus,
+[WorkDatabase].[dbo].ClaimsStatus,
 COUNT(EstimateItemID) AS COUNT_OF_ESTIMATE_ITEM
 INTO #AB2
 FROM WorkDatabase.dbo.leaves AS A
