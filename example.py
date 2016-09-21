@@ -58,18 +58,23 @@ This is an example of creating both a primary and foreign key in SQL Server usin
 CREATE TABLE Employees
 (
 EmployeeNo INTEGER IDENTITY NOT NULL PRIMARY KEY,
-EmployeeName VARCHAR(30),
-EmployeeHireDate DATE,
+EmployeeName VARCHAR(30) NOT NULL,
+EmployeeHireDate DATE NOT NULL,
+Title VARCHAR (25)NOT NULL,
+SSN VARCHAR (11) NOT NULL,
+Salary MONEY NOT NULL,
+PriorSalary MONEY,
+HireDate SMALLDATETIME NOT NULL,
 CurrentlyEmployed BIT
 )
 
 
-CREATE TABLE Orders
+CREATE TABLE PensionInformation
 (
 OrderID INTEGER IDENTITY NOT NULL PRIMARY KEY,
-CustomerNo INTEGER NOT NULL
+PensionNo INTEGER NOT NULL
 FOREIGN KEY REFERENCES Employees(EmployeeNo),
-OrderDate DATE NOT NULL,
+BenfitsDate DATE NOT NULL,
 EmployeeID INTEGER NOT NULL
 )
 
