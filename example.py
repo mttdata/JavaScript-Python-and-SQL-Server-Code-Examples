@@ -1,3 +1,8 @@
+This is an example of writing a script in T-SQL on SQL Server Management Studio in order 
+to extract data between a specific date range.
+=============================================================================================================================
+
+
 USE [WorkDatabase]
 GO
 
@@ -8,7 +13,7 @@ SET @StartDate  = '09/01/2010';
 SET @EndDate = '08/30/2016';
 
 SELECT TOP 100 A.Name AS [Estimate Name],  
-A.GrandTotalRecoveredDepreciation AS [Claim Net RCV],
+A.GrandTotalRecoveredDepreciation AS [Claim Net ABC],
 B.Number AS [Claim Number], CONVERT(VARCHAR(15), (D.LossDate), 107) AS  
 [Loss Date],
 CONVERT(VARCHAR(15), C.ClaimEstimateCompletedDate, 107) AS [Date], CASE
@@ -27,8 +32,11 @@ INNER JOIN Claims AS D
 ON C.ClaimID = D.ClaimID
 WHERE C.ClaimEstimateCompletedDate >= @StartDate and  
 C.ClaimEstimateCompletedDate <=  @EndDate
-ORDER BY [Claim Net RCV] DESC
+ORDER BY [Claim Net ABC] DESC
 
+
+This is an example of creating temporary tables with inner joins in order to extract data.  
+=============================================================================================================================
 
 DROP TABLE #AB2
 SELECT A.ClaimID,
@@ -40,13 +48,19 @@ INNER JOIN
 #RC AS B
 ON A.ClaimID = B.ClaimID
 WHERE Description = 'Closed'
-Group by A.ClaimID
-Having COUNT(EstimateItemID) >= 1
+GROUP BY A.ClaimID
+HAVING COUNT(EstimateItemID) >= 1
 
+
+This is an example of creating both a primary and foreign key in SQL Server using the T-SQL programming language
+============================================================================================================================
 
 CREATE TABLE Employees
 (
 EmployeeNo INTEGER IDENTITY NOT NULL PRIMARY KEY,
+EmployeeName VARCHAR(30),
+EmployeeHireDate DATE,
+CurrentlyEmployed BIT
 )
 
 
