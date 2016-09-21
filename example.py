@@ -22,13 +22,13 @@ WHEN A.GrandTotalRecoveredDepreciation BETWEEN 1000 AND 2000 THEN
 'Medium Estimate Status'
 ELSE 'Large Status Normal'
 END [Listed Estimate Status]
-FROM Claims AS B 
-INNER JOIN Estimates AS A 
+FROM Claims AS B WITH(NOLOCK)
+INNER JOIN Estimates AS A WITH(NOLOCK)
 ON A.ClaimID = B.ClaimID
 INNER JOIN ClaimSummaryParticipantsView 
 C.ClaimEstimateCompletedDate 
 ON B.ClaimID = C.ClaimID
-INNER JOIN Claims AS D
+INNER JOIN Claims AS D WITH(NOLOCK) 
 ON C.ClaimID = D.ClaimID
 WHERE C.ClaimEstimateCompletedDate >= @StartDate and  
 C.ClaimEstimateCompletedDate <=  @EndDate
@@ -43,7 +43,7 @@ SELECT A.ClaimID,
 [WorkDatabase].[dbo].ClaimsStatus,
 COUNT(EstimateItemID) AS COUNT_OF_ESTIMATE_ITEM
 INTO #AB2
-FROM WorkDatabase.dbo.leaves AS A
+FROM WorkDatabase.dbo.leaves AS A WITH(NOLOCK)
 INNER JOIN
 #RC AS B
 ON A.ClaimID = B.ClaimID
@@ -76,6 +76,7 @@ PensionNo INTEGER NOT NULL
 FOREIGN KEY REFERENCES Employees(EmployeeNo),
 BenfitsDate DATE NOT NULL,
 EmployeeID INTEGER NOT NULL
+
 )
 
 
