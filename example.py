@@ -1,3 +1,6 @@
+
+T-SQL Coding Examples
+=============================================================================================================================
 This is an example of writing a script in T-SQL on SQL Server Management Studio in order 
 to extract data between a specific date range.
 =============================================================================================================================
@@ -80,6 +83,8 @@ EmployeeID INTEGER NOT NULL
 )
 
 
+============================================================================================================================
+Python Coding Examples
 =============================================================================================================================
 
 Probability is often defined as the frequency of something occuring provided a certain sample size
