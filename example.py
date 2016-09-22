@@ -76,12 +76,19 @@ CREATE TABLE PensionInformation
 (
 OrderID INTEGER IDENTITY NOT NULL PRIMARY KEY,
 PensionNo INTEGER NOT NULL
-BenfitsDate DATE NOT NULL,
+BenefitsDate DATE NOT NULL,
 EmployeeID INTEGER NOT NULL
 FOREIGN KEY REFERENCES Employees(EmployeeNo)
 ON UPDATE NO ACTION 
 ON DELETE CASCADE 
 )
+
+SET IDENTITY_INSERT PensionInformation ON
+GO 
+INSERT INTO PensionInformation (PensionNo, BenefitsDate, EmployeeID)
+VALUES (001, 03/11/2016, 15134)
+SET IDENTITY_INSERT PensionInformation OFF
+
 
 ============================================================================================================================
 Python Coding Examples
