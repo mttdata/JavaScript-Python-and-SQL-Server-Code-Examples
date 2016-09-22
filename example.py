@@ -76,12 +76,12 @@ CREATE TABLE PensionInformation
 (
 OrderID INTEGER IDENTITY NOT NULL PRIMARY KEY,
 PensionNo INTEGER NOT NULL
-FOREIGN KEY REFERENCES Employees(EmployeeNo),
 BenfitsDate DATE NOT NULL,
 EmployeeID INTEGER NOT NULL
-
+FOREIGN KEY REFERENCES Employees(EmployeeNo)
+ON UPDATE NO ACTION 
+ON DELETE CASCADE 
 )
-
 
 ============================================================================================================================
 Python Coding Examples
