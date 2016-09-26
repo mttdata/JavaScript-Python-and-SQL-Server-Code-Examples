@@ -89,6 +89,102 @@ INSERT INTO PensionInformation (PensionNo, BenefitsDate, EmployeeID)
 VALUES (001, 03/11/2016, 15134)
 SET IDENTITY_INSERT PensionInformation OFF
 
+Using Nested Queries to Retrieve Data
+====================================================
+
+SELECT * FROM leaves AS A 
+LEFT JOIN leaves2 AS B 
+ON A.TreeID = B.TreeID 
+WHERE A.TreeHeight > 16 
+AND A.TreeHeight 
+IN (SELECT A.TreeHeight FROM Leaves)
+AND 
+A.TreeID = (SELECT MAX(TReeID) From leaves) 
+
+Creating a Temporary Table to Retrieve Data 
+==================================================
+
+SELECT A.TreeID, MAX(A.TreeHeight) AS TreeHeight 
+INTO #TreeData
+FROM leaves AS A 
+GROUP BY A.TreeID, A.TreeName 
+
+SELECT * FROM leaves2 AS B
+JOIN #TreeData AS C
+ON B.TreeID = C.TreeID 
+
+DROP TABLE #TreeData
+
+Using SubQueries and Temporary Tables to Retrieve Data and
+to transfer the results into a new database 
+=======================================================
+
+SELECT A.TreeID, 
+(SELECT MAX(TreeHeight)
+FROM leaves2 AS B 
+WHERE A.TreeID = B.TreeID)
+AS NewTableName 
+INTO #ABC 
+FROM leaves AS A
+
+SELECT *, 
+CASE WHEN NewTableName IS NULL THEN 'NoData'
+ELSE 'Data Entered' 
+END AS NewInformationTable 
+FROM #ABC 
+DROP #ABC 
+
+SELECT * INTO [Sample6].[dbo].[leaves7]
+FROM #ABC 
+
+
+Creating a searchable stored procedure to obtain data
+==================================================
+
+CREATE PROCEDURE sp_treename 
+@TreeName VARCHAR(30)
+AS
+BEGIN 
+SELECT TreeID, 
+TreeHeight
+FROM 
+leaves 
+WHERE TreeName LIKE @TreeName = '%'
+END 
+
+EXEC sp_treename 'Maple' 
+
+
+Creating a Function 
+==========================
+
+CREATE FUNCTION Test1 
+(@A INTEGER, 
+@B INTEGER) 
+RETURNS INTEGER 
+AS 
+BEGIN 
+RETURN @A + @B 
+END 
+
+
+Creating A Function
+=======================
+
+CREATE FUNCTION fn_test()
+RETURNS TABLE 
+AS
+RETURN (SELECT * FROM leaves)
+
+SELECT * FROM fn_test() AS A
+INNER JOIN leaves2 AS B
+ON A.TreeID = B.TreeID 
+
+sp_helptext fn_test 
+
+
+
+
 
 ============================================================================================================================
 Python Coding Examples
