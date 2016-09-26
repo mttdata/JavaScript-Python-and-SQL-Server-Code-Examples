@@ -168,8 +168,8 @@ RETURN @A + @B
 END 
 
 
-Creating A Function
-=======================
+Creating A Function in order to use inner joins
+===================================================
 
 CREATE FUNCTION fn_test()
 RETURNS TABLE 
