@@ -186,6 +186,7 @@ Creating a multi-statement table valued function
 
 CREATE FUNCTION fn_trees()
 RETURNS @Table TABLE (NewTreeHeight FLOAT, DateEntered DATETIME2)
+WITH SCHEMABINDING
 AS 
 BEGIN 
 INSERT INTO @Table
