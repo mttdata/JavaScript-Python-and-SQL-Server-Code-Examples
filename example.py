@@ -38,7 +38,7 @@ C.ClaimEstimateCompletedDate <=  @EndDate
 ORDER BY [Claim Net ABC] DESC
 
 
-This is an example of creating temporary tables with inner joins in order to extract data.  
+Creating temporary tables with inner joins in order to extract data.  
 =============================================================================================================================
 
 DROP TABLE #AB2
@@ -54,8 +54,7 @@ WHERE Description = 'Closed'
 GROUP BY A.ClaimID
 HAVING COUNT(EstimateItemID) >= 1
 
-
-This is an example of creating both a primary and foreign key in SQL Server using the T-SQL programming language
+Creating both a primary and foreign key in SQL Server using the T-SQL programming language
 ============================================================================================================================
 
 CREATE TABLE Employees
@@ -115,8 +114,8 @@ ON B.TreeID = C.TreeID
 
 DROP TABLE #TreeData
 
-Using SubQueries and Temporary Tables to Retrieve Data and
-to transfer the results into a new database 
+Using subqueries and temporary tables to retrieve and
+transfer data into a new database 
 =======================================================
 
 SELECT A.TreeID, 
@@ -168,7 +167,7 @@ RETURN @A + @B
 END 
 
 
-Creating A Function in order to use inner joins
+Creating a function in order to use inner joins
 ===================================================
 
 CREATE FUNCTION fn_test()
