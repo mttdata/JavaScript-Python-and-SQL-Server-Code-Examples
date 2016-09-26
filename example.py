@@ -181,6 +181,18 @@ ON A.TreeID = B.TreeID
 
 sp_helptext fn_test 
 
+Creating a multi-statement table valued function
+===================================================
+
+CREATE FUNCTION fn_trees()
+RETURNS @Table TABLE (NewTreeHeight FLOAT, DateEntered DATETIME2)
+AS 
+BEGIN 
+INSERT INTO @Table
+SELECT TreeHeight, CONVERT(VARCHAR(30), DateEntered, 107)
+FROM leaves
+RETURN 
+END 
 
 
 
