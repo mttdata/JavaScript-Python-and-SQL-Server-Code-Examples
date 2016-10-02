@@ -195,6 +195,234 @@ FROM leaves
 RETURN 
 END 
 
+===========================================================
+
+Using Nested Queries to Retrieve Data
+====================================================
+
+SELECT * FROM leaves AS A 
+LEFT JOIN leaves2 AS B 
+ON A.TreeID = B.TreeID 
+WHERE A.TreeHeight > 16 
+AND A.TreeHeight 
+IN (SELECT A.TreeHeight FROM Leaves)
+AND 
+A.TreeID = (SELECT MAX(TReeID) From leaves) 
+
+Creating a Temporary Table to Retrieve Data 
+==================================================
+
+SELECT A.TreeID, MAX(A.TreeHeight) AS TreeHeight 
+INTO #TreeData
+FROM leaves AS A 
+GROUP BY A.TreeID, A.TreeName 
+
+SELECT * FROM leaves2 AS B
+JOIN #TreeData AS C
+ON B.TreeID = C.TreeID 
+
+DROP TABLE #TreeData
+
+Using SubQueries and Temporary Tables to Retrieve Data and
+to transfer the results into a new database 
+=======================================================
+
+SELECT A.TreeID, 
+(SELECT MAX(TreeHeight)
+FROM leaves2 AS B 
+WHERE A.TreeID = B.TreeID)
+AS NewTableName 
+INTO #ABC 
+FROM leaves AS A
+
+SELECT *, 
+CASE WHEN NewTableName IS NULL THEN 'NoData'
+ELSE 'Data Entered' 
+END AS NewInformationTable 
+FROM #ABC 
+DROP #ABC 
+
+SELECT * INTO [Sample6].[dbo].[leaves7]
+FROM #ABC 
+
+
+Creating a searchable stored procedure to obtain data
+==================================================
+
+CREATE PROCEDURE sp_treename 
+@TreeName VARCHAR(30)
+AS
+BEGIN 
+SELECT TreeID, 
+TreeHeight
+FROM 
+leaves 
+WHERE TreeName LIKE @TreeName = '%'
+END 
+
+
+
+Creating a Function 
+==========================
+
+CREATE FUNCTION Test1 
+(@A INTEGER, 
+@B INTEGER) 
+RETURNS INTEGER 
+AS 
+BEGIN 
+RETURN @A + @B 
+END 
+
+
+Creating A Function
+=======================
+
+CREATE FUNCTION fn_test()
+RETURNS TABLE 
+AS
+RETURN (SELECT * FROM leaves)
+
+SELECT * FROM fn_test() AS A
+INNER JOIN leaves2 AS B
+ON A.TreeID = B.TreeID 
+
+sp_helptext fn_test 
+
+Creating an clustered index
+==================
+
+CREATE INDEX IX_leaves_TreeName
+ON leaves(TreeName ASC)
+
+--note: cannot create more than one clustered
+--index on a table. 
+
+Creating a view 
+=====================
+
+CREATE VIEW vWleaves
+AS
+SELECT 
+TreeHeight, TreeName, DateEntered
+FROM leaves
+
+SELECT * FROM vWleaves 
+
+UPDATE vWleaves
+SET TreeName = 'Spruce' 
+WHERE TreeHeight = 12.341
+---note the parent table is also updated when the
+--child table is altered in a view. this does not 
+--usually happen when multiple tables are used. INSTEAD
+OF triggers are used. 
+
+Creating a clustered index on an existing view 
+
+CREATE UNIQUE CLUSTERED INDEX UIX_VWleaves1
+ON VWleaves1(TreeID) 
+
+Creating a trigger
+========================
+
+CREATE TRIGGER tr_trigger1 
+ON leaves15 
+FOR INSERT --could also be update or delete
+AS 
+BEGIN 
+SELECT LeafID FROM leaves15 
+WHERE LeafID > 10 
+END 
+
+SET IDENTITY_INSERT leaves15 ON 
+INSERT INTO leaves15 (LeafID, LeafName) VALUES (19, 2341)
+SET IDENTITY_INSERT leaves15 OFF
+
+Creating a trigger for update statement
+============================================
+
+CREATE TRIGGER tr_trigger2 
+ON leaves15 
+FOR UPDATE 
+AS 
+BEGIN 
+	SELECT * FROM deleted
+	SELECT * FROM inserted
+END 
+
+UPDATE leaves15 
+SET LeafName = 3434
+WHERE LeafID = 15 
+
+Creating an INSTEAD OF Trigger for a delete statement
+==================================================
+CREATE VIEW vw1 
+AS 
+SELECT * FROM leaves AS A
+INNER JOIN leaves15 AS B
+ON A.TreeID = B.LeafID 
+
+CREATE TRIGGER tr1 
+ON vw1 
+INSTEAD OF DELETE 
+AS 
+BEGIN 
+   DELETE leaves
+   FROM leaves
+   JOIN deleted
+   ON leaves.TreeID = deleted.TreeID 
+END 
+
+DELETE FROM vw1 WHERE LeafID = 6
+
+Creating derieved tables 
+=============================
+
+SELECT * FROM 
+(SELECT TreeID, TreeName, TreeHeight FROM leaves)
+AS NewTreeInformation
+WHERE TreeID IN (2, 4, 7) 
+AND TreeHeight >= 15 
+
+Creating a CTE(Common Table Expression) 
+============================================
+
+WITH TreeInfo(TreeID, TreeName, TreeHeight)
+AS 
+(SELECT TreeID, TreeName, COUNT(*) AS TotalTreeHeight
+FROM leaves
+GROUP BY TreeID, TreeName)
+SELECT * FROM TreeInfo 
+WHERE TreeName NOT IN ('Maple') 
+AND TreeID > 3 
+
+Using more than 1 CTE 
+=============================
+WITH TreeInfo(TreeID, TreeName)
+AS 
+(SELECT TreeID, TreeName
+FROM leaves
+GROUP BY TreeID, TreeName), 
+SecondTreeInfo(LeafID, LeafName)
+AS(SELECT * FROM leaves10)
+SELECT * FROM TreeInfo
+WHERE TreeName NOT IN ('Spruce')
+AS TreeID >=2 AND TreeName = 'Maple'
+UNION 
+SELECT * FROM SecondTreeInfo 
+WHERE LeafID > 25
+
+Updating a CTE Table
+===========================
+WITH LeafInfo1(LeafID, LeafName)
+AS 
+(SELECT LeafID, LeafName
+FROM leaves10)
+UPDATE LeafInfo1 SET 
+LeafName = 'Spruce' WHERE
+LeafID = 25 
+
+
 
 
 
