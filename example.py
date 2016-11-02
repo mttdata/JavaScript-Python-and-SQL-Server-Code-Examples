@@ -429,7 +429,24 @@ LeafID = 25
 ============================================================================================================================
 Python Coding Examples
 =============================================================================================================================
+Creating a Web Scraper in Python 
 
+import requests
+import re
+from bs4 import BeautifulSoup
+a = input("\r\Please enter the ISBN number:  ")
+url = 'https://store.kobobooks.com/search?Query='
+r = requests.get(str(url + str(a)))
+soup = BeautifulSoup(r.text)
+print(soup.find_all("meta", property="author"))
+print("\n\nThe title is", soup.find_all("meta", property="og:title"))
+print("\n\nThe book was published on", soup.find_all("meta", property="datePublished"))
+print("\n\nHere is a description of the book\r\r", soup.find("meta", property='description'))
+print("\n\nHere is the book's rating", soup.find_all("meta", property="og:rating"))
+print("\n\nHere is the price", soup.find_all("meta", property="og:price"))
+
+
+=============================================================================================================================
 Probability is often defined as the frequency of something occuring provided a certain sample size
 
 We are presented the following statistical problem: what is the probability that I will encounter a red light when I
