@@ -439,17 +439,17 @@ a = input("\r\rPlease enter the ISBN number:  ")
 url = 'https://store.kobobooks.com/search?Query='
 r = requests.get((url) + (a))
 soup = BeautifulSoup(r.text)
-print("\n\nThe author is ", (re.sub(r"(<meta content=)|(property=)|(a....../>?)", '', 
+print("\n\nThe author is", (re.sub(r"(<meta content=)|(property=)|([/>])|(.?author.*)|(^.)|(\..""$)", '', 
 str((soup.find_all("meta", property="author"))))))
-print("\nThe title of the book is ", re.sub(r"(<meta content=)|(property=)|(o......../>?)|(Kobo)", '',
+print("\nThe title of the book is", re.sub(r"(<meta content=)|(/s.*)|(....$)|(-)|(property=)|(/s.*$)|(o......../>?)|(..?$)|(Kobo)|(\s......$)", '', 
 str((soup.find("meta", property="og:title")))))
-print("\nThe book was published on ", re.sub(r"(<meta content=)|(property=)|(datePublished)|(/>)", '', 
+print("\nThe book was published on ", re.sub(r"(<meta content=)|(property=)|(datePublished)|(/>)|(\s..''$)", '', 
 str((soup.find("meta", property="datePublished")))))
-print("\nThis is a description of the book:\n\n", re.sub(r"(<meta content=)|(property=)|(description)|(/>)", '', 
+print("\nThis is a description of the book:\n\n", re.sub(r"(<meta content=)|(property=)|(description)|(/)|(/>)|(/i&gt;)|(i&gt;)|(&lt;)|(b&gt;)|(br&gt;)", '', 
 str((soup.find("meta", property='description')))))
-print("\nThe book has a rating of ", re.sub(r"(<meta content=)|(property=)|(og:rating)|(/>)", '', 
+print("\nThe book has a rating of ",re.sub(r"(<meta content=)|(property=)|(og:rating)|(/>)|(\s.*$)", '', 
 str((soup.find("meta", property="og:rating")))))
-print("\nThe price of the book is ", re.sub(r"(<meta content=)|(property=)|(og:price)|(/>)", '', 
+print("\nThe price of the book is $",re.sub(r"(<meta content=)|(property=)|(og:price)|(/>)|(\s.*$)", '', 
 str((soup.find("meta", property="og:price")))))
 
 
