@@ -431,19 +431,26 @@ Python Coding Examples
 =============================================================================================================================
 Creating a Web Scraper in Python 
 
+#!/usr/bin/python
 import requests
 import re
 from bs4 import BeautifulSoup
-a = input("\r\Please enter the ISBN number:  ")
+a = input("\r\rPlease enter the ISBN number:  ")
 url = 'https://store.kobobooks.com/search?Query='
-r = requests.get(str(url + str(a)))
+r = requests.get((url) + (a))
 soup = BeautifulSoup(r.text)
-print(soup.find_all("meta", property="author"))
-print("\n\nThe title is", soup.find_all("meta", property="og:title"))
-print("\n\nThe book was published on", soup.find_all("meta", property="datePublished"))
-print("\n\nHere is a description of the book\r\r", soup.find("meta", property='description'))
-print("\n\nHere is the book's rating", soup.find_all("meta", property="og:rating"))
-print("\n\nHere is the price", soup.find_all("meta", property="og:price"))
+print("\n\nThe author is ", (re.sub(r"(<meta content=)|(property=)|(a....../>?)", '', 
+str((soup.find_all("meta", property="author"))))))
+print("\nThe title of the book is ", re.sub(r"(<meta content=)|(property=)|(o......../>?)|(Kobo)", '',
+str((soup.find("meta", property="og:title")))))
+print("\nThe book was published on ", re.sub(r"(<meta content=)|(property=)|(datePublished)|(/>)", '', 
+str((soup.find("meta", property="datePublished")))))
+print("\nThis is a description of the book:\n\n", re.sub(r"(<meta content=)|(property=)|(description)|(/>)", '', 
+str((soup.find("meta", property='description')))))
+print("\nThe book has a rating of ", re.sub(r"(<meta content=)|(property=)|(og:rating)|(/>)", '', 
+str((soup.find("meta", property="og:rating")))))
+print("\nThe price of the book is ", re.sub(r"(<meta content=)|(property=)|(og:price)|(/>)", '', 
+str((soup.find("meta", property="og:price")))))
 
 
 =============================================================================================================================
