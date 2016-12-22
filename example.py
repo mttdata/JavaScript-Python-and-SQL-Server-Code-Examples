@@ -1,3 +1,46 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <title>Display Current Weather</title>
+</head>
+
+<body>
+ 
+<button onclick="Weather()">Click me</button>
+<script>
+
+function Weather(){
+var ourRequest = new XMLHttpRequest();
+ourRequest.open('GET', 'https://api.apixu.com/v1/current.json?key=51100b5037e248b1b17205338162212&q=Paris');
+ourRequest.onload = function() {
+var ourData = JSON.parse(ourRequest.responseText);
+var location = ourData.location.name;
+var currentCondition = ourData.current.condition.text;
+var currentTemp = ourData.current.temp_c;
+var feelsLike = ourData.current.feelslike_c;
+document.write("The weather for " + location + " is " + currentTemp + " degrees Celcius with " + currentCondition + " conditions. It currently feels like "+ feelsLike + " degrees Celcius" );
+    
+};
+ourRequest.send();
+
+
+
+};
+      
+</script>
+</body>
+ 
+</html>
+    
+
+
+
+
+
+
+
+
 
 T-SQL Coding Examples
 =============================================================================================================================
