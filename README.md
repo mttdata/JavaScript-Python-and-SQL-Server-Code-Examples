@@ -1,1 +1,1 @@
-Examples of various projects created using SQL Server and Python
+Examples of various projects created using JavaScript, Python, and SQL Server.
