@@ -1,3 +1,8 @@
+JavaScript Coding Examples 
+
+Creating a program that pulls weather data from an API
+==============================================================
+
 <!DOCTYPE html>
 <html>
  
