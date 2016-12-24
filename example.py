@@ -5,38 +5,50 @@ Creating a program that pulls weather data from an API
 
 <!DOCTYPE html>
 <html>
- 
-<head>
-  <title>Display Current Weather</title>
-</head>
+ <head>
+<style>
+    
+</style>
+    </head>
 
 <body>
- 
-<button onclick="Weather()">Click me</button>
+<h1>Current Weather</h1>
+<form onsubmit="return Weather()">
+  <input id="city" placeholder="Please enter your city">
+  <button type="submit">Submit</button>
+</form>
+
 <script>
 
-function Weather(){
+function Weather(){   // we obtain data from the API 
+var api = 'https://api.apixu.com/v1/current.json?key=51100b5037e248b1b17205338162212&q='
+var input = document.getElementById("city").value;
+var CompleteApi = api + input;
 var ourRequest = new XMLHttpRequest();
-ourRequest.open('GET', 'https://api.apixu.com/v1/current.json?key=51100b5037e248b1b17205338162212&q=Paris');
-ourRequest.onload = function() {
+ourRequest.open('GET', CompleteApi);
+    
+ourRequest.onload = function() {  // we parse the data 
 var ourData = JSON.parse(ourRequest.responseText);
 var location = ourData.location.name;
 var currentCondition = ourData.current.condition.text;
 var currentTemp = ourData.current.temp_c;
 var feelsLike = ourData.current.feelslike_c;
-document.write("The weather for " + location + " is " + currentTemp + " degrees Celcius with " + currentCondition + " conditions. It currently feels like "+ feelsLike + " degrees Celcius" );
-    
+document.write("The weather for " + location + " is " + currentTemp 
++ " degrees Celcius with " + currentCondition + " conditions. \
+It currently feels like "+ feelsLike + " degrees Celcius." );
 };
+   
 ourRequest.send();
-
-
-
+return false;
 };
+      
+      
       
 </script>
 </body>
  
 </html>
+
     
 
 
