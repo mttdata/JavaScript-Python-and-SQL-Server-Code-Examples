@@ -5,21 +5,67 @@ Creating a program that pulls weather data from an API
 
 <!DOCTYPE html>
 <html>
- <head>
+<head>
 <style>
     
+
+body{
+background-color: #e9e9e9;
+background-image: linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%),
+linear-gradient(90deg, rgba(255,255,255,.13) 50%, transparent 50%),
+linear-gradient(90deg, transparent 50%, rgba(255,255,255,.17) 50%),
+linear-gradient(90deg, transparent 50%, rgba(255,255,255,.19) 50%);
+background-size: 13px, 29px, 37px, 53px;
+}
+
+p {
+font-size: 16px;
+line-height: 1.0625rem;
+font-weight: 700;
+color:cadetblue;
+font-style: normal;
+font-family: "Book Antiqua", Palatino, serif, nyt-franklin;
+   }
+    
+h1{
+  font-size: 1.295rem;
+  line-height: 1.0625rem;
+  font-weight: 700;
+  font-style: normal;
+  font-family: georgia, "Book Antiqua", Palatino, serif, nyt-franklin;
+  text-transform: uppercase;
+  color: dimgray;
+  letter-spacing: .04em;
+  margin: 5px auto 0;
+  display: inlinelightcoral;
+  }
+    
+ hr{
+border-bottom-color:cornflowerblue;
+border-width: thin;
+   }
+    
+    
+    
 </style>
-    </head>
+</head>
 
 <body>
-<h1>Current Weather</h1>
-<form onsubmit="return Weather()">
-  <input id="city" placeholder="Please enter your city">
-  <button type="submit">Submit</button>
-</form>
+</br>    
+<h1>Current Weather Forecast</h1>
+<hr>
 
+<p>Please enter the name of your city</p>    
+<form onsubmit="return Weather()">
+<input id="city" placeholder="City Name">
+<button type="submit">Submit</button>
+</form>
+    
 <script>
 
+document.getElementById('city').style.width="330px";
+document.getElementById('city').style.height="25px";
+document.getElementById("submit").style.borderColor = "red";
 function Weather(){   // we obtain data from the API 
 var api = 'https://api.apixu.com/v1/current.json?key=51100b5037e248b1b17205338162212&q='
 var input = document.getElementById("city").value;
@@ -42,14 +88,18 @@ ourRequest.send();
 return false;
 };
       
-      
-      
+  
 </script>
+
+
 </body>
- 
 </html>
 
-    
+
+
+
+
+
 
 
 
