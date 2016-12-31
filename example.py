@@ -1,6 +1,12 @@
 JavaScript Coding Examples 
 
 Creating a program that pulls weather data from an API
+
+Link is found at:
+	
+http://codepen.io/anon/pen/bgbEGd
+	
+	
 ==============================================================
 
 <!DOCTYPE html>
